@@ -13,11 +13,11 @@ services:
       context: .
       target: runtime
     volumes:
-      - ./logs:/logs
+      - ./logs:/tmp/logs
     ports:
       - 3000:3000
     environment:
-      - RUST_LOG=/logs
+      - LOG_PATH=/tmp/logs
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
