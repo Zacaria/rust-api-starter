@@ -37,12 +37,12 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Build and start services
-        run: docker-compose up -d
+        run: docker-compose up -d --build
 
       - name: Wait for API to be ready
         run: |
           until curl --output /dev/null --silent --head --fail http://localhost:3000/health; do
-            printf '.'
+            docker-compose logs
             sleep 5
           done
       - name: Run tests
