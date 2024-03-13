@@ -10,7 +10,7 @@ mod errors;
 async fn main() -> Result<()> {
     dotenv::dotenv().ok();
 
-    let _ = setup_logging();
+    let _guard = setup_logging();
 
     let router = api::app();
 
