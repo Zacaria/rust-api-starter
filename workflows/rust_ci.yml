@@ -1,0 +1,56 @@
+name: Rust CI
+
+env:
+  CARGO_TERM_COLOR: always
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Docker layers
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Check code formatting
+        run: |
+          cargo fmt --all -- --check
+      - name: Run Clippy
+        run: |
+          cargo clippy -- -D warnings
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build and start services
+        run: docker-compose up -d
+
+      - name: Wait for API to be ready
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:3000/health; do
+            printf '.'
+            sleep 5
+          done
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --verbose -- --test-threads 1
+
+      - name: Stop Docker Compose services
+        if: always()
+        run: docker-compose down
