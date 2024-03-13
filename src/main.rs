@@ -31,15 +31,6 @@ async fn listen(router: axum::Router) -> Result<()> {
 }
 
 const DEFAULT_LOG_FILTER: &str = "api_template=info,tower_http=info";
-// fn setup_logging() {
-//     let console_layer = fmt::layer().with_writer(std::io::stdout).with_filter(
-//         EnvFilter::try_from_default_env().unwrap_or_else(|_| DEFAULT_LOG_FILTER.into()),
-//     );
-
-//     let subscriber = Registry::default().with(console_layer);
-
-//     set_global_default(subscriber.into()).expect("Failed to set log subscriber");
-// }
 const DEFAULT_LOG_PATH: &str = "/logs";
 
 fn setup_logging() -> impl Drop {
