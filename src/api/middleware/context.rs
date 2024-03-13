@@ -7,6 +7,7 @@ use crate::api::errors;
 
 #[derive(Clone, Debug)]
 pub struct Context {
+    #[allow(dead_code)]
     request_id: String,
 }
 
@@ -17,6 +18,7 @@ impl Context {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_request_id(&self) -> String {
         self.request_id.clone()
     }

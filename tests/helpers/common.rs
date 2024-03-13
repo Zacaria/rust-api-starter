@@ -65,6 +65,7 @@ impl TestClient {
         Ok((status, response_body))
     }
 
+    #[allow(dead_code)]
     pub async fn get(
         &self,
         path: &str,
