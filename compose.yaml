@@ -12,8 +12,8 @@ services:
     build:
       context: .
       target: runtime
-    volumes:
-      - ./logs:/logs
+    # volumes:
+    #   - ./logs:/logs
     ports:
       - 3000:3000
 
