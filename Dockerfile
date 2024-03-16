@@ -64,11 +64,14 @@ ARG UID=10001
 RUN adduser \
     --disabled-password \
     --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
+    --home "/home/appuser" \
+    # --shell "/sbin/nologin" \
+    # --no-create-home \
     --uid "${UID}" \
     appuser
+
+USER root
+RUN mkdir /home/appuser/logs && chown appuser:appuser /home/appuser/logs
 
 USER appuser
 
