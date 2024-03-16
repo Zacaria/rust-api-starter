@@ -9,13 +9,13 @@
 # https://github.com/docker/awesome-compose
 services:
   server:
-    user: root
+    # user: root
     image: zacariachtatar/rust-api-starter
     build:
       context: .
       target: runtime
     volumes:
-      - ./logs:/home/appuser/logs
+      - ${GITHUB_WORKSPACE:=.}/logs:/home/appuser/logs
     ports:
       - 3000:3000
     environment:
