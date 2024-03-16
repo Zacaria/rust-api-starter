@@ -15,7 +15,7 @@ services:
       context: .
       target: runtime
     volumes:
-      - ${GITHUB_WORKSPACE:=.}/logs:/home/appuser/logs
+      - ${GITHUB_WORKSPACE:-.}/logs:/home/appuser/logs
     ports:
       - 3000:3000
     environment:
