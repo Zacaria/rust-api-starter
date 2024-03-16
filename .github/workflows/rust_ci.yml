@@ -15,6 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Write Logs to Workspace
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/logs
       - name: Cache Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
@@ -30,12 +33,6 @@ jobs:
       - name: Run Clippy
         run: |
           cargo clippy -- -D warnings
-
-      # - name: Install Docker Compose
-      #   run: |
-
-      #     sudo curl -L "https://github.com/docker/compose/releases/download/2.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      #     sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Build and start services
         run: docker-compose up -d --build
